@@ -7,12 +7,13 @@ import SectionHeading from "../components/SectionHeading.astro";
 import SiteLayout from "../layouts/SiteLayout.astro";
 import { contactDetails } from "../data/contact";
 import { experience } from "../data/experience";
+import { profile } from "../data/profile";
 import { projects } from "../data/projects";
 import { skillGroups } from "../data/skills";
 import SkillsSection from "../components/SkillsSection.astro";
 ---
 
-<SiteLayout>
+<SiteLayout title={`${profile.name} | ${profile.role}`} description={profile.metaDescription}>
   <main id="main-content">
     <HeroSection />
 
@@ -20,7 +21,7 @@ import SkillsSection from "../components/SkillsSection.astro";
       <div class="container section__layout">
         <SectionHeading label="About" title="Sobre mí" />
         <div class="section__content">
-          <p class="section__placeholder">Presentación profesional pendiente.</p>
+          <p>{profile.about}</p>
         </div>
       </div>
     </section>
