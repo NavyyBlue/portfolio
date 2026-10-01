@@ -1,13 +1,18 @@
 ---
+import type { GetStaticPaths } from "astro";
 import SiteLayout from "../../layouts/SiteLayout.astro";
-import { projects } from "../../data/projects";
+import { projects, type PortfolioProject } from "../../data/projects";
 
-export function getStaticPaths() {
+interface Props {
+  project: PortfolioProject;
+}
+
+export const getStaticPaths = (() => {
   return projects.map((project) => ({
     params: { slug: project.slug },
     props: { project },
   }));
-}
+}) satisfies GetStaticPaths;
 
 const { project } = Astro.props;
 const detail = project.detail;
