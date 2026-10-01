@@ -41,3 +41,8 @@ Ver propuesta: `proposal.md`. El repositorio declara Node `>=22.12.0`, y el lock
 4. Ejecutar `npm install`, revisar el lockfile y confirmar que desapareció el warning de engine de `undici`.
 5. Ejecutar `npm run build`. Si la validación falla, corregir la causa antes de cerrar el cambio; revertir la declaración o el movimiento de assets solo si se confirma que la solución no puede mantenerse dentro de Node 22.
 
+## Nota de validación final
+
+- `npm ci` y `npm run build` finalizaron correctamente.
+- En Windows, `npm ls --depth=0` puede reportar como `extraneous` paquetes opcionales o transitivos relacionados con Sharp/WASM. No se agregaron como dependencias directas y este reporte no bloquea el cambio.
+- El aviso `EPERM` de limpieza de `node_modules` corresponde al entorno Windows/OneDrive; no afectó los archivos versionados ni el build.
