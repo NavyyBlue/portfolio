@@ -1,0 +1,54 @@
+---
+import type { SkillGroup } from "../data/skills";
+import SectionHeading from "./SectionHeading.astro";
+
+interface Props {
+  groups: readonly SkillGroup[];
+}
+
+const { groups } = Astro.props;
+---
+
+<section id="skills" class="section">
+  <div class="container section__layout">
+    <SectionHeading label="Skills" title="Capacidades" />
+    <div class="section__content">
+      {groups.length > 0 ? (
+        <dl class="skill-groups">
+          {groups.map((group) => (
+            <div class="skill-group">
+              <dt>{group.name}</dt>
+              <dd>{group.items.join(" · ")}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : (
+        <p class="section__placeholder">Las capacidades se añadirán cuando el contenido esté confirmado.</p>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skill-groups {
+    display: grid;
+    gap: var(--space-6);
+    margin: 0;
+  }
+
+  .skill-group {
+    display: grid;
+    gap: var(--space-2);
+    padding-block-end: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .skill-group dt {
+    font-weight: 650;
+  }
+
+  .skill-group dd {
+    margin: 0;
+    color: var(--color-muted);
+  }
+</style>

@@ -1,16 +1,61 @@
 ---
+import ContactSection from "../components/ContactSection.astro";
+import ExperienceTimeline from "../components/ExperienceTimeline.astro";
+import HeroSection from "../components/HeroSection.astro";
+import ProjectShowcase from "../components/ProjectShowcase.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { contactDetails } from "../data/contact";
+import { experience } from "../data/experience";
+import { projects } from "../data/projects";
+import { skillGroups } from "../data/skills";
+import SkillsSection from "../components/SkillsSection.astro";
 ---
 
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Portfolio</title>
-  </head>
-  <body>
-    <main>
-      <h1>Portfolio</h1>
-    </main>
-  </body>
-</html>
+<SiteLayout>
+  <main id="main-content">
+    <HeroSection />
+
+    <section id="about" class="section">
+      <div class="container section__layout">
+        <SectionHeading label="About" title="Sobre mí" />
+        <div class="section__content">
+          <p class="section__placeholder">Presentación profesional pendiente.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="section">
+      <div class="container section__layout">
+        <SectionHeading label="Experience" title="Experiencia" />
+        <div class="section__content">
+          <ExperienceTimeline entries={experience} />
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="container section__layout">
+        <SectionHeading label="Selected Work" title="Proyectos seleccionados" />
+        <div class="section__content">
+          {projects.length > 0 ? (
+            <div class="project-list">
+              {projects.map((project, index) => <ProjectShowcase project={project} index={index} />)}
+            </div>
+          ) : (
+            <p class="section__placeholder">Los proyectos seleccionados están pendientes de contenido confirmado.</p>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <SkillsSection groups={skillGroups} />
+    <ContactSection details={contactDetails} />
+  </main>
+</SiteLayout>
+
+<style>
+  .project-list {
+    display: grid;
+  }
+</style>

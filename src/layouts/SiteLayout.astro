@@ -1,0 +1,46 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Portfolio | Jean Carlo Cárdenas",
+  description = "Portfolio personal de Jean Carlo Cárdenas. Contenido en preparación.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <title>{title}</title>
+    <script is:inline>
+      const themeKey = "portfolio-theme";
+      const systemTheme = typeof window.matchMedia === "function" && window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+
+      try {
+        const storedTheme = window.localStorage.getItem(themeKey);
+        document.documentElement.dataset.theme =
+          storedTheme === "light" || storedTheme === "dark" ? storedTheme : systemTheme;
+      } catch {
+        document.documentElement.dataset.theme = systemTheme;
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
+    <SiteHeader />
+    <slot />
+    <SiteFooter />
+  </body>
+</html>

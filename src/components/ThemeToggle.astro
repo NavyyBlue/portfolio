@@ -1,0 +1,88 @@
+<button
+  class="theme-toggle"
+  type="button"
+  data-theme-toggle
+  aria-label="Cambiar tema"
+>
+  <span data-theme-name>Tema</span>
+</button>
+
+<script>
+  const themeKey = "portfolio-theme";
+  const themeToggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+
+  function activeTheme(): "light" | "dark" {
+    return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+  }
+
+  function storedTheme(): string | null {
+    try {
+      return window.localStorage.getItem(themeKey);
+    } catch {
+      return null;
+    }
+  }
+
+  function updateThemeControl(): void {
+    if (!themeToggle) return;
+
+    const theme = activeTheme();
+    themeToggle.setAttribute("aria-pressed", String(theme === "dark"));
+    themeToggle.setAttribute(
+      "aria-label",
+      `Cambiar a tema ${theme === "dark" ? "claro" : "oscuro"}`,
+    );
+
+    const label = themeToggle.querySelector<HTMLElement>("[data-theme-name]");
+    if (label) label.textContent = theme === "dark" ? "Tema oscuro" : "Tema claro";
+  }
+
+  if (themeToggle) {
+    updateThemeControl();
+
+    themeToggle.addEventListener("click", () => {
+      const nextTheme = activeTheme() === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = nextTheme;
+
+      try {
+        window.localStorage.setItem(themeKey, nextTheme);
+      } catch {
+        // The theme still changes for this visit when storage is unavailable.
+      }
+
+      updateThemeControl();
+    });
+
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+      const preference = storedTheme();
+      if (preference !== "light" && preference !== "dark") {
+        document.documentElement.dataset.theme = event.matches ? "dark" : "light";
+        updateThemeControl();
+      }
+    });
+  }
+</script>
+
+<style>
+  .theme-toggle {
+    flex: 0 0 auto;
+    min-height: 2.75rem;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+    color: var(--color-foreground);
+    background: transparent;
+    font-size: var(--text-small);
+    transition: var(--transition-colors);
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--color-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-toggle {
+      transition: none;
+    }
+  }
+</style>

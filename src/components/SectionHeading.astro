@@ -1,0 +1,21 @@
+---
+interface Props {
+  label: string;
+  title: string;
+}
+
+const { label, title } = Astro.props;
+---
+
+<div class="section-heading">
+  <p class="eyebrow">{label}</p>
+  <h2 class="section__heading">{title}</h2>
+</div>
+
+<style>
+  .section-heading {
+    display: grid;
+    align-content: start;
+    gap: var(--space-4);
+  }
+</style>
