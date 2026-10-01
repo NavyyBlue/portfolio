@@ -4,8 +4,8 @@
 El Hero MUST dar prioridad visual tipográfica al nombre `Jean Carlo Cárdenas` y al rol `Mobile Developer`. MUST presentar como introducción breve el texto: “Desarrollo experiencias móviles para Android, iOS y entornos multiplataforma, con foco en arquitectura de software, escalabilidad y calidad de código.” La introducción MUST NOT contener placeholders ni afirmaciones fuera de la información verificada. MUST conservar acciones hacia Projects y Contact, MUST NOT añadir una acción de CV mientras no exista un archivo real, y MUST mostrar enlaces sociales solo cuando existan URLs verificadas.
 
 #### Scenario: Hero de foundation sin biografía final
-- **WHEN** la home se muestra antes de incorporar la biografía definitiva
-- **THEN** presenta el nombre y rol provistos, identifica la introducción como pendiente y no presenta enlaces sociales sin destino verificado
+- **WHEN** la home se muestra antes de incorporar cualquier contenido biográfico adicional futuro
+- **THEN** presenta el nombre y rol provistos, la introducción profesional aprobada sin placeholder y no presenta enlaces sociales sin destino verificado
 
 #### Scenario: Hero con el perfil profesional verificado
 - **WHEN** una persona abre la home después de incorporar el perfil profesional
