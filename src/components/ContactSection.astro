@@ -1,0 +1,49 @@
+---
+import type { ContactDetails } from "../data/contact";
+import SectionHeading from "./SectionHeading.astro";
+
+interface Props {
+  details: ContactDetails;
+}
+
+const { details } = Astro.props;
+const links = [
+  details.email && { label: "Email", href: `mailto:${details.email}` },
+  details.linkedInUrl && { label: "LinkedIn", href: details.linkedInUrl },
+  details.githubUrl && { label: "GitHub", href: details.githubUrl },
+  details.cvUrl && { label: "Descargar CV", href: details.cvUrl },
+].filter((link): link is { label: string; href: string } => Boolean(link));
+---
+
+<section id="contact" class="section">
+  <div class="container section__layout">
+    <SectionHeading label="Contact" title="Contacto" />
+    <div class="section__content">
+      {links.length > 0 ? (
+        <ul class="contact-links">
+          {links.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      ) : (
+        <p class="section__placeholder">Los datos de contacto se añadirán cuando estén confirmados.</p>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contact-links a {
+    color: var(--color-accent);
+    font-weight: 650;
+  }
+</style>

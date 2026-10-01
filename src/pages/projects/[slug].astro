@@ -1,0 +1,198 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { projects } from "../../data/projects";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const detail = project.detail;
+const sections = [
+  { heading: "Resumen", body: detail?.overview },
+  { heading: "Contexto", body: detail?.context },
+  { heading: "Problema", body: detail?.problem },
+  { heading: "Solución", body: detail?.solution },
+  { heading: "Rol", body: detail?.role },
+].filter((section) => section.body);
+---
+
+<SiteLayout title={`${project.name} | Portfolio`} description={project.description}>
+  <main id="main-content" class="project-page">
+    <header class="project-page__intro">
+      <div class="container">
+        <a class="project-page__back" href="/#projects">Volver a proyectos</a>
+        <p class="eyebrow">Proyecto</p>
+        <h1>{project.name}</h1>
+        <p class="project-page__description">{project.description}</p>
+      </div>
+    </header>
+
+    {project.image && (
+      <figure class="container project-page__cover">
+        <img src={project.image.src} alt={project.image.alt} />
+        {project.image.caption && <figcaption>{project.image.caption}</figcaption>}
+      </figure>
+    )}
+
+    <div class="container project-page__content">
+      {project.technologies.length > 0 && (
+        <section class="project-page__section">
+          <h2>Tecnologías</h2>
+          <ul class="project-page__technology-list">
+            {project.technologies.map((technology) => <li>{technology}</li>)}
+          </ul>
+        </section>
+      )}
+
+      {sections.map((section) => (
+        <section class="project-page__section">
+          <h2>{section.heading}</h2>
+          <p>{section.body}</p>
+        </section>
+      ))}
+
+      {detail?.decisions && detail.decisions.length > 0 && (
+        <section class="project-page__section">
+          <h2>Decisiones técnicas</h2>
+          {detail.decisions.map((decision) => (
+            <div class="project-page__decision">
+              <h3>{decision.heading}</h3>
+              <p>{decision.body}</p>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {detail?.screenshots && detail.screenshots.length > 0 && (
+        <section class="project-page__section">
+          <h2>Capturas</h2>
+          <div class="project-page__screenshots">
+            {detail.screenshots.map((image) => (
+              <figure>
+                <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+                {image.caption && <figcaption>{image.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {project.externalLinks && project.externalLinks.length > 0 && (
+        <section class="project-page__section">
+          <h2>Enlaces</h2>
+          <ul>
+            {project.externalLinks.map((link) => (
+              <li><a href={link.href}>{link.label}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  </main>
+</SiteLayout>
+
+<style>
+  .project-page__intro {
+    padding-block: clamp(var(--space-16), 12vw, var(--space-24));
+  }
+
+  .project-page__intro .container {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-6);
+  }
+
+  .project-page__back {
+    margin-block-end: var(--space-8);
+    color: var(--color-accent);
+    font-size: var(--text-small);
+  }
+
+  h1 {
+    max-width: 15ch;
+    font-size: var(--text-display);
+  }
+
+  .project-page__description {
+    max-width: var(--reading-width);
+    color: var(--color-muted);
+    font-size: var(--text-lead);
+  }
+
+  .project-page__cover {
+    margin-block-end: var(--space-16);
+  }
+
+  .project-page__cover img,
+  .project-page__screenshots img {
+    width: 100%;
+    height: auto;
+    background: var(--color-surface);
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  figcaption {
+    padding-block-start: var(--space-2);
+    color: var(--color-muted);
+    font-size: var(--text-small);
+  }
+
+  .project-page__content {
+    max-width: var(--reading-width);
+    padding-block-end: var(--space-24);
+  }
+
+  .project-page__section {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .project-page__section h2 {
+    font-size: 1.5rem;
+  }
+
+  .project-page__section h3 {
+    font-size: 1.125rem;
+  }
+
+  .project-page__section p {
+    color: var(--color-muted);
+  }
+
+  .project-page__technology-list,
+  .project-page__section ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin: 0;
+    padding-inline-start: var(--space-4);
+  }
+
+  .project-page__technology-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  .project-page__decision {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .project-page__screenshots {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  a {
+    color: var(--color-accent);
+  }
+</style>

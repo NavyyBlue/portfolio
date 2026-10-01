@@ -1,0 +1,112 @@
+---
+import type { PortfolioProject } from "../data/projects";
+
+interface Props {
+  project: PortfolioProject;
+  index: number;
+}
+
+const { project, index } = Astro.props;
+---
+
+<article class:list={["project-showcase", index % 2 === 1 && "project-showcase--reverse"]}>
+  {project.image && (
+    <figure class="project-showcase__image">
+      <img src={project.image.src} alt={project.image.alt} loading="lazy" decoding="async" />
+      {project.image.caption && <figcaption>{project.image.caption}</figcaption>}
+    </figure>
+  )}
+
+  <div class="project-showcase__content">
+    <p class="eyebrow">Proyecto</p>
+    <h3>{project.name}</h3>
+    <p class="project-showcase__description">{project.description}</p>
+
+    {project.technologies.length > 0 && (
+      <ul class="project-showcase__technologies">
+        {project.technologies.map((technology) => <li>{technology}</li>)}
+      </ul>
+    )}
+
+    <div class="project-showcase__links">
+      <a href={`/projects/${project.slug}`}>Ver detalle</a>
+      {project.externalLinks?.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </div>
+  </div>
+</article>
+
+<style>
+  .project-showcase {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+    padding-block: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .project-showcase__image {
+    margin: 0;
+    color: var(--color-muted);
+    background: var(--color-surface);
+  }
+
+  .project-showcase__image img {
+    width: 100%;
+    height: auto;
+  }
+
+  .project-showcase__image figcaption {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-small);
+  }
+
+  .project-showcase__content {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-4);
+  }
+
+  .project-showcase__content h3 {
+    font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem);
+  }
+
+  .project-showcase__description {
+    max-width: var(--reading-width);
+    color: var(--color-muted);
+  }
+
+  .project-showcase__technologies,
+  .project-showcase__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin: 0;
+    padding: 0;
+  }
+
+  .project-showcase__technologies {
+    color: var(--color-muted);
+    font-size: var(--text-small);
+    list-style: none;
+  }
+
+  .project-showcase__links a {
+    color: var(--color-accent);
+    font-size: var(--text-small);
+    font-weight: 650;
+  }
+
+  @media (min-width: 48rem) {
+    .project-showcase {
+      grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.82fr);
+      gap: var(--space-12);
+      padding-block: var(--space-12);
+    }
+
+    .project-showcase--reverse .project-showcase__image {
+      order: 1;
+    }
+  }
+</style>
