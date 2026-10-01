@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-10-01
+goal: Definir y validar, sin implementar, la actualización de portfolio-home
+  para mostrar la experiencia verificada y mantener Selected Work neutral.
