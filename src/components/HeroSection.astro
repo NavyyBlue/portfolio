@@ -6,9 +6,7 @@ import { profile } from "../data/profile";
   <div class="container hero__inner">
     <p class="eyebrow hero__role">{profile.role}</p>
     <h1>{profile.name}</h1>
-    <p class="hero__introduction">
-      {profile.introduction ?? "Introducción profesional pendiente."}
-    </p>
+    <p class="hero__introduction">{profile.introduction}</p>
     <div class="hero__actions">
       <a class="action action--primary" href="#projects">Ver proyectos</a>
       <a class="action action--secondary" href="#contact">Contactar</a>

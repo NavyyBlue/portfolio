@@ -5,4 +5,7 @@ export interface ContactDetails {
   cvUrl?: string;
 }
 
-export const contactDetails: ContactDetails = {};
+export const contactDetails: ContactDetails = {
+  email: "jeancardenas.dev@gmail.com",
+  githubUrl: "https://github.com/NavyyBlue",
+};
